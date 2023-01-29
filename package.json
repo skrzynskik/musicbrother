@@ -1,0 +1,15 @@
+{
+  "name": "musicbrother",
+  "version": "0.0.1",
+  "description": "a nodejs app that brings your song music streaming service libraries to merge them into one",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "author": "Kacper Skrzyński",
+  "license": "ISC",
+  "devDependencies": {
+    "@codyduong/ytmusicapi": "^0.4.6",
+    "typescript": "^4.9.4"
+  }
+}
