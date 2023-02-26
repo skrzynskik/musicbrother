@@ -1,6 +1,10 @@
-import express, {Express, Request, Response} from 'express';
-import {SpotifyApi} from "./spotify-api.js";
+import express, { Express, Request, Response } from 'express';
+import { SpotifyApi } from "./APIs/spotify-api.js";
+import * as dotenv from 'dotenv'
+import { YtmusicApi } from "./APIs/ytmusic-api.js";
 const app: Express = express();
+dotenv.config()
+
 
 const spotifyApi = new SpotifyApi(
     'http://localhost:8888/spotifyCallback',
@@ -8,8 +12,10 @@ const spotifyApi = new SpotifyApi(
     'd1a5209b14f24584856a36b69b9c4e32'
 )
 
+const ytmApi = new YtmusicApi();
+
 app.get('/', (req: Request, res: Response) => {
-    res.sendFile('/Users/kacperskrzynski/Documents/UEK/MusicBrother/src/index.html')
+    res.sendFile('index.html', { root: './src/static' })
 });
 
 app.get('/spotifyLogin', (req: Request, res: Response) => {
@@ -17,13 +23,19 @@ app.get('/spotifyLogin', (req: Request, res: Response) => {
 });
 
 app.get('/spotifyCallback', (req: Request, res: Response) => {
-    spotifyApi.callbackHandler(req,res)
+    spotifyApi.callbackHandler(req, res)
 })
 
-app.get('/getSongLibrary', async (req: Request, res: Response) => {
+app.get('/getSpotifySongLibrary', async (req: Request, res: Response) => {
     await spotifyApi.getUserLibrary()
-    res.redirect('http://localhost:8888/')
+    res.sendFile('done.html', { root: './src/static' })
 })
+
+app.get('/getYTMSongLibrary', async (req: Request, res: Response) => {
+    await ytmApi.getUserLibrary('PL8mcvtIiuEx_I2DRC1SkCIGyrMzwqWnu3')
+    res.sendFile('done.html', { root: './src/static' })
+})
+
 app.listen(8888, () => {
     console.log('server up an runnin at http://localhost:8888/')
 });

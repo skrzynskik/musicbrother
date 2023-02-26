@@ -1,8 +1,9 @@
 import SpotifyWebApi from 'spotify-web-api-node'
-import {scopes, SpotifyTrack} from "./models.js";
+import {scopes, SpotifyTrack} from "../utils/models.js";
 import {Request, Response} from "express";
+import {Api} from "./api.js";
 
-export class SpotifyApi {
+export class SpotifyApi implements Api<SpotifyTrack[]>{
     private readonly clientId: string;
     private readonly redirectUri: string;
     private readonly clientSecret: string;
@@ -36,6 +37,12 @@ export class SpotifyApi {
         })
         console.log(tracks);
         return tracks
+    }
+
+    public async getAlbum() {
+        return await this.spotifyApi.getAlbum('4GyUkM4rpGM9qHEs6Kpvgx').then(data => {
+            console.log(data.body.tracks.items);
+        });
     }
     public authorize(request: Request, response: Response): void {
         return response.redirect(this.spotifyApi.createAuthorizeURL(scopes));

@@ -53,3 +53,11 @@ export type SpotifyTrack = {
     songPreviewUrl: string
     songUri: string
 };
+
+export type YouTubeMusicToken = {
+
+}
+
+export type YouTubeMusicTrack = {
+
+}
